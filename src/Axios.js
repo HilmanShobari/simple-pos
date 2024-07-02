@@ -22,9 +22,9 @@ export const login = async (merchantID, token) => {
   }
 };
 
-export const logout = async (merchantID, index, token) => {
+export const logout = async (merchantID, cashierIndex, cashierToken) => {
   try {
-    const response = await api.post('/pgqr/loginQr/logout', { merchantID, index, token });
+    const response = await api.post('/pgqr/loginQr/logout', { merchantID, cashierIndex, cashierToken });
     return response.data;
   } catch (error) {
     console.error('Error during login:', error);
