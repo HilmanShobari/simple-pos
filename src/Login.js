@@ -8,6 +8,8 @@ import './Login.css';
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [qrResult, setQrResult] = useState('');
+  const [error, setError] = useState(null); // State untuk menyimpan pesan error
 
   useEffect(() => {
     const merchantID = localStorage.getItem('merchantID');
@@ -19,14 +21,18 @@ const Login = () => {
   const handleScan = async (data) => {
     if (data) {
       try {
+        console.log('data qr: ', data.text);
+        setQrResult(data.text);
         const { merchantID, token } = JSON.parse(data);
+        console.log('merchantID:', merchantID, 'token:', token);
         setLoading(true);
         const response = await login(merchantID, token);
         console.log('Login successful:', response);
-        localStorage.setItem('merchantID', merchantID);
+        setError(null); // Reset pesan error jika berhasil
         navigate('/');
       } catch (error) {
         console.error('Error posting QR data:', error);
+        setError('Failed to login. Please try again.'); // Set pesan error
       } finally {
         setLoading(false);
       }
@@ -35,19 +41,24 @@ const Login = () => {
 
   const handleError = (err) => {
     console.error('Error scanning QR:', err);
+    setError('Failed to scan QR code. Please try again.'); // Set pesan error
   };
 
   return (
     <div className="login-container">
       <h2>Scan QR Code</h2>
       {loading && <p>Loading...</p>}
-      <QrReader className='qr-reader'
+      {error && <p className="error-message">{error}</p>}{' '}
+      {/* Tampilkan pesan error */}
+      <QrReader
+        className="qr-reader"
         delay={300}
         onError={handleError}
         onResult={handleScan}
         style={{ width: '100%' }}
         constraints={{ facingMode: 'environment' }}
       />
+      <h5>Result: {qrResult}</h5>
     </div>
   );
 };
