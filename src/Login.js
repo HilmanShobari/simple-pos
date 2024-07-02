@@ -46,6 +46,7 @@ const Login = () => {
         onError={handleError}
         onResult={handleScan}
         style={{ width: '100%' }}
+        constraints={{ facingMode: 'environment' }}
       />
     </div>
   );
