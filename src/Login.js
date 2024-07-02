@@ -32,7 +32,7 @@ const Login = () => {
         navigate('/');
       } catch (error) {
         console.error('Error posting QR data:', error);
-        setError('Failed to login. Please try again.'); // Set pesan error
+        setError(error); // Set pesan error
       } finally {
         setLoading(false);
       }
