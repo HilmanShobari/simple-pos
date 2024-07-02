@@ -52,7 +52,6 @@ const Login = () => {
       {/* Tampilkan pesan error */}
       <QrReader
         className="qr-reader"
-        delay={300}
         onError={handleError}
         onResult={handleScan}
         style={{ width: '100%' }}
