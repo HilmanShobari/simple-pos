@@ -1,0 +1,9 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-reader {
+  width: 60%;
+}
