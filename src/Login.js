@@ -55,8 +55,8 @@ const Login = () => {
       {error && <p className="error-message">{error}</p>}{' '}
       <Html5QrcodePlugin
         className="qr-reader"
-        fps={50}
-        qrbox={500}
+        fps={500}
+        qrbox={250}
         disableFlip={true}
         qrCodeSuccessCallback={(result) => {
           if (!!result) {
