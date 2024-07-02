@@ -1,7 +1,7 @@
 // Login.js
 import { login } from './Axios';
 import React, { useState, useEffect } from 'react';
-import { QrReader } from 'react-qr-reader';
+import Html5QrcodePlugin from './Html5QrcodePlugin.js';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -10,6 +10,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [qrResult, setQrResult] = useState('');
   const [error, setError] = useState(null); // State untuk menyimpan pesan error
+  const [scanningInProgress, setScanningInProgress] = useState(false); // State untuk memantau pemindaian sedang berlangsung
 
   useEffect(() => {
     const merchantID = localStorage.getItem('merchantID');
@@ -19,10 +20,12 @@ const Login = () => {
   }, [navigate]);
 
   const handleScan = async (data) => {
-    if (data) {
+    if (!scanningInProgress) { // Memastikan tidak ada pemindaian yang sedang berlangsung
+      setScanningInProgress(true); // Mengatur bahwa pemindaian sedang berlangsung
+
       try {
-        console.log('data qr: ', data.text);
-        setQrResult(data.text);
+        console.log('data qr: ', data);
+        setQrResult(data);
         const { merchantID, token } = JSON.parse(data);
         console.log('merchantID:', merchantID, 'token:', token);
         setLoading(true);
@@ -35,6 +38,7 @@ const Login = () => {
         setError(error.message); // Set pesan error
       } finally {
         setLoading(false);
+        setScanningInProgress(false); // Mengatur bahwa pemindaian telah selesai
       }
     }
   };
@@ -49,13 +53,16 @@ const Login = () => {
       <h2>Scan QR Code</h2>
       {loading && <p>Loading...</p>}
       {error && <p className="error-message">{error}</p>}{' '}
-      {/* Tampilkan pesan error */}
-      <QrReader
+      <Html5QrcodePlugin
         className="qr-reader"
-        onError={handleError}
-        onResult={handleScan}
-        style={{ width: '100%' }}
-        constraints={{ facingMode: 'environment' }}
+        fps={50}
+        qrbox={500}
+        disableFlip={true}
+        qrCodeSuccessCallback={(result) => {
+          if (!!result) {
+            handleScan(result);
+          }
+        }}
       />
       <h5>Result: {qrResult}</h5>
     </div>
