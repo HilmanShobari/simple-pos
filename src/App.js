@@ -8,6 +8,7 @@ import {
 import './App.css';
 import Login from './Login';
 import Home from './Home';
+import Webview from './Webview';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <header className="App-header">
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/webview" element={<Webview />} />
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>

@@ -1,4 +1,6 @@
 import axios from 'axios';
+import './Helper';
+import generateRandomNumber from './Helper';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -24,7 +26,47 @@ export const login = async (merchantID, token) => {
 
 export const logout = async (merchantID, cashierIndex, cashierToken) => {
   try {
-    const response = await api.post('/pgqr/loginQr/logout', { merchantID, cashierIndex, cashierToken });
+    const response = await api.post('/pgqr/loginQr/logout', {
+      merchantID,
+      cashierIndex,
+      cashierToken,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error during login:', error);
+    throw error;
+  }
+};
+
+export const transaction = async (merchant_id, amount) => {
+  try {
+    const randomNum = generateRandomNumber(5); // Menghasilkan angka acak 5 digit
+    const order_no = `HS-${randomNum}`; // Membuat nomor order
+    const phone = '6285123456789';
+    const name = 'John Doe';
+    const email = 'johnvaporrr@gmail.com';
+    const currency = 'IDR';
+
+    const apiKey = localStorage.getItem('apiKey');
+
+    const response = await api.post(
+      '/merchant/fiat/order',
+      {
+        order_no,
+        merchant_id,
+        amount,
+        currency,
+        phone,
+        name,
+        email,
+      },
+      {
+        headers: {
+          'API-KEY': apiKey,
+        },
+      }
+    );
+
     return response.data;
   } catch (error) {
     console.error('Error during login:', error);
