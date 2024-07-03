@@ -3,6 +3,7 @@ import { login } from './Axios';
 import React, { useState, useEffect } from 'react';
 import Html5QrcodePlugin from './Html5QrcodePlugin.js';
 import { useNavigate } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress'; // Import komponen CircularProgress dari MUI
 import './Login.css';
 
 const Login = () => {
@@ -18,6 +19,20 @@ const Login = () => {
       navigate('/');
     }
   }, [navigate]);
+
+  useEffect(() => {
+    // Hapus error setelah 3 detik jika ada
+    let errorTimer;
+    if (error) {
+      errorTimer = setTimeout(() => {
+        setError(null);
+      }, 3000);
+    }
+
+    return () => {
+      clearTimeout(errorTimer);
+    };
+  }, [error]);
 
   const handleScan = async (data) => {
     if (!scanningInProgress) {
@@ -37,9 +52,11 @@ const Login = () => {
       } catch (error) {
         console.error('Error posting QR data:', error);
         setError(error.message); // Set pesan error
+        setTimeout(() => {
+          setScanningInProgress(false); // Setelah 3 detik, set pemindaian selesai untuk memunculkan kembali Html5QrcodePlugin
+        }, 3000);
       } finally {
         setLoading(false);
-        setScanningInProgress(false); // Mengatur bahwa pemindaian telah selesai
       }
     } else {
       return false; // Mengembalikan false jika pemindaian sedang berlangsung
@@ -49,24 +66,29 @@ const Login = () => {
   const handleError = (err) => {
     console.error('Error scanning QR:', err);
     setError('Failed to scan QR code. Please try again.'); // Set pesan error
+    setTimeout(() => {
+      setScanningInProgress(false); // Setelah 3 detik, set pemindaian selesai untuk memunculkan kembali Html5QrcodePlugin
+    }, 3000);
   };
 
   return (
     <div className="login-container">
       <h2>Scan QR Code</h2>
-      {loading && <p>Loading...</p>}
-      {error && <p className="error-message">{error}</p>}{' '}
-      <Html5QrcodePlugin
-        className="qr-reader"
-        fps={500}
-        qrbox={250}
-        disableFlip={true}
-        qrCodeSuccessCallback={(result) => {
-          if (!!result) {
-            handleScan(result);
-          }
-        }}
-      />
+      {loading && <CircularProgress className="loading-spinner" />} {/* Tampilkan indikator loading jika loading true */}
+      {error && <p className="error-message">{error} ... retrying in 3 seconds</p>}{' '}
+      {!loading && !error && ( // Tampilkan Html5QrcodePlugin jika tidak loading dan tidak ada error
+        <Html5QrcodePlugin
+          className="qr-reader"
+          fps={500}
+          qrbox={250}
+          disableFlip={true}
+          qrCodeSuccessCallback={(result) => {
+            if (!!result) {
+              handleScan(result);
+            }
+          }}
+        />
+      )}
       <h5>Result: {qrResult}</h5>
     </div>
   );
