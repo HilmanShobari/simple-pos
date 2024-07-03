@@ -11,7 +11,7 @@ const api = axios.create({
 
 export const login = async (merchantID, token) => {
   try {
-    const response = await api.post('/pgqr/loginQr', { merchantID, token });
+    const response = await api.post('/loginQr', { merchantID, token });
     // Simpan data ke localStorage
     localStorage.setItem('merchantID', response.data.data.merchantID);
     localStorage.setItem('cashierIndex', response.data.data.cashierIndex);
@@ -26,7 +26,7 @@ export const login = async (merchantID, token) => {
 
 export const logout = async (merchantID, cashierIndex, cashierToken) => {
   try {
-    const response = await api.post('/pgqr/loginQr/logout', {
+    const response = await api.post('/loginQr/logout', {
       merchantID,
       cashierIndex,
       cashierToken,
