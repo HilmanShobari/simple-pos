@@ -50,7 +50,7 @@ export const transaction = async (merchant_id, amount) => {
     const apiKey = localStorage.getItem('apiKey');
 
     const response = await axios.post(
-      'https://staging-nero-api.qoincrypto.id/merchant/fiat/order',
+      'https://staging-nero-api.qoincrypto.id/testnet/merchant/fiat/order',
       {
         order_no,
         merchant_id,
