@@ -65,7 +65,7 @@ const Home = () => {
     <Container className="home-container" maxWidth="sm">
       <ToastContainer />
       <Typography variant="h4" gutterBottom>
-        Welcome to Home Page Cashier: {cashierIndex}
+        Welcome to Home Page
       </Typography>
 
       <Button
@@ -79,6 +79,7 @@ const Home = () => {
       </Button>
 
       <Typography variant="body1">Merchant ID: {merchantID}</Typography>
+      <Typography variant="body1">Cashier Index: {cashierIndex}</Typography>
       <Typography variant="body1">Cashier Token: {cashierToken}</Typography>
 
       <Box
