@@ -73,7 +73,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2>Scan QR Code</h2>
+      <h2>Scan QR Code To Login</h2>
       {loading && <CircularProgress className="loading-spinner" />} {/* Tampilkan indikator loading jika loading true */}
       {error && <p className="error-message">{error} ... retrying in 3 seconds</p>}{' '}
       {!loading && !error && ( // Tampilkan Html5QrcodePlugin jika tidak loading dan tidak ada error
