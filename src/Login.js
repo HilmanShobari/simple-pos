@@ -20,7 +20,8 @@ const Login = () => {
   }, [navigate]);
 
   const handleScan = async (data) => {
-    if (!scanningInProgress) { // Memastikan tidak ada pemindaian yang sedang berlangsung
+    if (!scanningInProgress) {
+      // Memastikan tidak ada pemindaian yang sedang berlangsung
       setScanningInProgress(true); // Mengatur bahwa pemindaian sedang berlangsung
 
       try {
@@ -40,6 +41,8 @@ const Login = () => {
         setLoading(false);
         setScanningInProgress(false); // Mengatur bahwa pemindaian telah selesai
       }
+    } else {
+      return false; // Mengembalikan false jika pemindaian sedang berlangsung
     }
   };
 
