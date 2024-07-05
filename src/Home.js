@@ -12,14 +12,14 @@ import './Home.css';
 const Home = () => {
   const navigate = useNavigate();
   const [merchantID, setMerchantID] = useState('');
-  const [cashierIndex, setCashierIndex] = useState('');
+  const [cashierID, setcashierID] = useState('');
   const [cashierToken, setCashierToken] = useState('');
   const [amount, setAmount] = useState('');
   const [webviewUrl, setWebviewUrl] = useState(''); // State untuk menyimpan URL webview
 
   useEffect(() => {
     const storedMerchantID = localStorage.getItem('merchantID');
-    const storedCashierIndex = localStorage.getItem('cashierIndex');
+    const storedcashierID = localStorage.getItem('cashierID');
     const storedCashierToken = localStorage.getItem('cashierToken');
 
     if (!storedMerchantID) {
@@ -28,12 +28,12 @@ const Home = () => {
     }
 
     setMerchantID(storedMerchantID);
-    setCashierIndex(storedCashierIndex);
+    setcashierID(storedcashierID);
     setCashierToken(storedCashierToken);
   }, [navigate]);
 
   const handleLogout = async () => {
-    const response = await logout(merchantID, cashierIndex, cashierToken);
+    const response = await logout(merchantID, cashierID, cashierToken);
     console.log('Logout successful:', response);
     localStorage.clear();
     navigate('/login');
@@ -79,7 +79,7 @@ const Home = () => {
       </Button>
 
       <Typography variant="body1">Merchant ID: {merchantID}</Typography>
-      <Typography variant="body1">Cashier Index: {cashierIndex}</Typography>
+      <Typography variant="body1">Cashier ID: {cashierID}</Typography>
       <Typography variant="body1">Cashier Token: {cashierToken}</Typography>
 
       <Box

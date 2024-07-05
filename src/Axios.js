@@ -14,7 +14,7 @@ export const login = async (merchantID, token) => {
     const response = await api.post('/loginQr', { merchantID, token });
     // Simpan data ke localStorage
     localStorage.setItem('merchantID', response.data.data.merchantID);
-    localStorage.setItem('cashierIndex', response.data.data.cashierIndex);
+    localStorage.setItem('cashierID', response.data.data.cashierID);
     localStorage.setItem('cashierToken', response.data.data.cashierToken);
     localStorage.setItem('apiKey', response.data.data.apiKey);
     return response.data;
@@ -24,11 +24,11 @@ export const login = async (merchantID, token) => {
   }
 };
 
-export const logout = async (merchantID, cashierIndex, cashierToken) => {
+export const logout = async (merchantID, cashierID, cashierToken) => {
   try {
     const response = await api.post('/loginQr/logout', {
       merchantID,
-      cashierIndex,
+      cashierID,
       cashierToken,
     });
     return response.data;
