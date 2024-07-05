@@ -42,10 +42,10 @@ const Login = () => {
       try {
         console.log('data qr: ', data);
         setQrResult(data);
-        const { merchantID, token } = JSON.parse(data);
-        console.log('merchantID:', merchantID, 'token:', token);
+        const { merchantID, cashierID, qrToken } = JSON.parse(data);
+        console.log('data: ', data);
         setLoading(true);
-        const response = await login(merchantID, token);
+        const response = await login(merchantID, cashierID, qrToken);
         console.log('Login successful:', response);
         setError(null); // Reset pesan error jika berhasil
         navigate('/');

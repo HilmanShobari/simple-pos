@@ -9,9 +9,13 @@ const api = axios.create({
   },
 });
 
-export const login = async (merchantID, token) => {
+export const login = async (merchantID, cashierID, qrToken) => {
   try {
-    const response = await api.post('/loginQr', { merchantID, token });
+    const response = await api.post('/loginQr', {
+      merchantID,
+      cashierID,
+      qrToken,
+    });
     // Simpan data ke localStorage
     localStorage.setItem('merchantID', response.data.data.merchantID);
     localStorage.setItem('cashierID', response.data.data.cashierID);
