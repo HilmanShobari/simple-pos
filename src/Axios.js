@@ -9,6 +9,13 @@ const api = axios.create({
   },
 });
 
+const txApi = axios.create({
+  baseURL: process.env.REACT_APP_TXAPI_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 export const login = async (merchantID, cashierID, qrToken) => {
   try {
     const response = await api.post('/loginQr', {
@@ -53,8 +60,8 @@ export const transaction = async (merchant_id, amount) => {
 
     const apiKey = localStorage.getItem('apiKey');
 
-    const response = await axios.post(
-      'https://staging-nero-api.qoincrypto.id/testnet/merchant/fiat/order',
+    const response = await txApi.post(
+      '/merchant/fiat/order',
       {
         order_no,
         merchant_id,
