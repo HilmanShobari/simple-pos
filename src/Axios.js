@@ -27,7 +27,6 @@ export const login = async (merchantID, cashierID, qrToken) => {
     localStorage.setItem('merchantID', response.data.data.merchantID);
     localStorage.setItem('cashierID', response.data.data.cashierID);
     localStorage.setItem('cashierToken', response.data.data.cashierToken);
-    localStorage.setItem('apiKey', response.data.data.apiKey);
     return response.data;
   } catch (error) {
     console.error('Error during login:', error);
@@ -58,10 +57,9 @@ export const transaction = async (merchant_id, amount) => {
     const email = 'johnvaporrr@gmail.com';
     const currency = 'IDR';
 
-    const apiKey = localStorage.getItem('apiKey');
 
     const response = await txApi.post(
-      '/merchant/fiat/order',
+      '/testnet/merchant/fiat/order',
       {
         order_no,
         merchant_id,
@@ -73,7 +71,7 @@ export const transaction = async (merchant_id, amount) => {
       },
       {
         headers: {
-          'API-KEY': apiKey,
+          'API-KEY': process.env.REACT_APP_API_KEY,
         },
       }
     );
