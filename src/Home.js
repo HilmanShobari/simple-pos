@@ -33,8 +33,12 @@ const Home = () => {
   }, [navigate]);
 
   const handleLogout = async () => {
-    const response = await logout(merchantID, cashierID, cashierToken);
-    console.log('Logout successful:', response);
+    try {
+      const response = await logout(merchantID, cashierID, cashierToken);
+      console.log('Logout successful:', response);
+    } catch (error) {
+      console.error('Error logging out');
+    }
     localStorage.clear();
     navigate('/login');
   };
@@ -52,6 +56,7 @@ const Home = () => {
     } catch (error) {
       console.log(error);
       toast.error(`Create transaction failed`);
+      handleLogout();
     } finally {
       toast.dismiss(toastLoading); // Tutup toast loading setelah selesai
     }
