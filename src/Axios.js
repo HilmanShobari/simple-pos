@@ -16,6 +16,10 @@ const txApi = axios.create({
   },
 });
 
+const getAccessToken = () => {
+  return localStorage.getItem('cashierToken');
+};
+
 export const login = async (merchantID, cashierID, qrToken) => {
   try {
     const response = await api.post('/loginQr', {
@@ -36,11 +40,20 @@ export const login = async (merchantID, cashierID, qrToken) => {
 
 export const logout = async (merchantID, cashierID, cashierToken) => {
   try {
-    const response = await api.post('/cashier/logout', {
-      merchantID,
-      cashierID,
-      cashierToken,
-    });
+    const accessToken = getAccessToken();
+    const response = await api.post(
+      '/cashier/logout',
+      {
+        merchantID,
+        cashierID,
+        cashierToken,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error('Error during login:', error);
@@ -56,7 +69,6 @@ export const transaction = async (merchant_id, amount) => {
     const name = 'John Doe';
     const email = 'johnvaporrr@gmail.com';
     const currency = 'IDR';
-
 
     const response = await txApi.post(
       '/testnet/merchant/fiat/order',
