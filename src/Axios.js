@@ -36,7 +36,7 @@ export const login = async (merchantID, cashierID, qrToken) => {
 
 export const logout = async (merchantID, cashierID, cashierToken) => {
   try {
-    const response = await api.post('/loginQr/logout', {
+    const response = await api.post('/cashier/logout', {
       merchantID,
       cashierID,
       cashierToken,
