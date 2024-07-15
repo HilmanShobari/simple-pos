@@ -63,6 +63,7 @@ export const logout = async (merchantID, cashierID, cashierToken) => {
 
 export const transaction = async (merchant_id, amount) => {
   try {
+    console.log('amount: ', amount);
     const randomNum = generateRandomNumber(5); // Menghasilkan angka acak 5 digit
     const order_no = `HS-${randomNum}`; // Membuat nomor order
     const phone = '6285123456789';
