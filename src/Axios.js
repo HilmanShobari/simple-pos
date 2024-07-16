@@ -71,7 +71,6 @@ export const transaction = async (merchant_id, cashier_id, amount) => {
     const phone = '6285123456789';
     const name = 'John Doe';
     const email = 'johnvaporrr@gmail.com';
-    const currency = 'IDR';
 
     const response = await txApi.post(
       '/cashier/order',
@@ -80,7 +79,6 @@ export const transaction = async (merchant_id, cashier_id, amount) => {
         merchant_id,
         cashier_id,
         amount,
-        currency,
         phone,
         name,
         email,
