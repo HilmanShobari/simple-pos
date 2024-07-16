@@ -61,9 +61,11 @@ export const logout = async (merchantID, cashierID, cashierToken) => {
   }
 };
 
-export const transaction = async (merchant_id, amount) => {
+export const transaction = async (merchant_id, cashier_id, amount) => {
   try {
     console.log('amount: ', amount);
+
+    const accessToken = getAccessToken();
     const randomNum = generateRandomNumber(5); // Menghasilkan angka acak 5 digit
     const order_no = `HS-${randomNum}`; // Membuat nomor order
     const phone = '6285123456789';
@@ -72,10 +74,11 @@ export const transaction = async (merchant_id, amount) => {
     const currency = 'IDR';
 
     const response = await txApi.post(
-      '/testnet/merchant/fiat/order',
+      '/cashier/order',
       {
         order_no,
         merchant_id,
+        cashier_id,
         amount,
         currency,
         phone,
@@ -84,7 +87,7 @@ export const transaction = async (merchant_id, amount) => {
       },
       {
         headers: {
-          'API-KEY': process.env.REACT_APP_API_KEY,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );

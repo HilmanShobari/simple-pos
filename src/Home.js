@@ -49,7 +49,7 @@ const Home = () => {
       autoClose: false,
     });
     try {
-      const response = await transaction(merchantID, amount);
+      const response = await transaction(merchantID, cashierID, amount);
       console.log('Amount:', response.data.url);
       toast.success('Create transaction successful');
       setWebviewUrl(response.data.url); // Set URL webview setelah transaksi berhasil
